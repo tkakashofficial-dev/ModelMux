@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text;
 using Microsoft.Extensions.AI;
@@ -18,7 +18,7 @@ namespace ModelMux.Cost;
 /// <remarks>
 /// <para>
 /// Recording never changes the outcome of a call. Failures in the usage store are logged
-/// and swallowed â€” telemetry must not be able to break the caller's LLM request.
+/// and swallowed — telemetry must not be able to break the caller's LLM request.
 /// </para>
 /// <para>
 /// Register it with <c>ChatClientBuilder.UseCostTracking()</c> rather than constructing it

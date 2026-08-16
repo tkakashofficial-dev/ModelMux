@@ -1,8 +1,8 @@
-﻿# ModelMux
+# ModelMux
 
 **Switch AI providers from configuration, not code.**
 
-ModelMux maps logical model profiles â€” `fast`, `smart`, `private` â€” onto OpenAI, Google
+ModelMux maps logical model profiles — `fast`, `smart`, `private` — onto OpenAI, Google
 Gemini, Ollama, or any OpenAI-compatible endpoint. Your application depends on `IChatClient`
 and never on a vendor.
 
@@ -37,17 +37,17 @@ builder.Services.AddModelMux(builder.Configuration);   // that's the whole setup
 
 ## Why
 
-`Microsoft.Extensions.AI` already gives .NET a shared abstraction â€” `IChatClient` â€” and
+`Microsoft.Extensions.AI` already gives .NET a shared abstraction — `IChatClient` — and
 ModelMux does **not** replace it. It sits on top and fills two gaps:
 
 | | Microsoft.Extensions.AI | ModelMux |
 |---|:---:|:---:|
-| Common `IChatClient` abstraction | âœ… | uses it |
-| Streaming, tools, middleware | âœ… | uses it |
-| Pick a provider from `appsettings.json` | âŒ | âœ… |
-| Several providers side by side in one app | âŒ | âœ… |
-| Logical profiles instead of vendor names | âŒ | âœ… |
-| Repoint at a self-hosted GPU without code changes | âŒ | âœ… |
+| Common `IChatClient` abstraction | ✅ | uses it |
+| Streaming, tools, middleware | ✅ | uses it |
+| Pick a provider from `appsettings.json` | ❌ | ✅ |
+| Several providers side by side in one app | ❌ | ✅ |
+| Logical profiles instead of vendor names | ❌ | ✅ |
+| Repoint at a self-hosted GPU without code changes | ❌ | ✅ |
 
 Out of the box, wiring a provider means writing a factory by hand in every project. ModelMux
 is that factory, done once, driven by config.
@@ -64,7 +64,7 @@ covers a lot of ground:
 | `Ollama` | `localhost:11434/v1/` | not required |
 | *anything OpenAI-compatible* | set `Endpoint` | your choice |
 
-That last row is the important one. vLLM, LM Studio, LocalAI, a rented GPU, or a gateway â€”
+That last row is the important one. vLLM, LM Studio, LocalAI, a rented GPU, or a gateway —
 point a profile's `Endpoint` at it and nothing else changes:
 
 ```jsonc
@@ -107,7 +107,7 @@ Use `ApiKeyEnvironmentVariable` and keep credentials out of config files:
 ```
 
 A literal `ApiKey` field exists for local spikes. It lands in `appsettings.json` and therefore
-in git â€” the environment variable wins when both are set.
+in git — the environment variable wins when both are set.
 
 ## Try it
 
@@ -145,20 +145,68 @@ pools; building one per request is how you exhaust sockets.
 everything downstream already speaks it. Inventing a parallel interface would cut you off from
 that ecosystem for no benefit.
 
+## Cost tracking (optional)
+
+`ModelMux.Cost` records what every call cost, attributed per tenant and per feature. It ships
+as a separate package so routing users don't pull in a pricing table they'll never use.
+
+```csharp
+builder.Services
+    .AddModelMux(builder.Configuration)
+    .AddCostTracking();                  // one extra line
+```
+
+```csharp
+public class BillingService(IUsageQuery usage)
+{
+    public async Task<decimal> MonthlyCostAsync(string tenantId) =>
+        (await usage.SummarizeAsync(new UsageFilter
+        {
+            TenantId = tenantId,
+            FromUtc = DateTimeOffset.UtcNow.AddDays(-30),
+        })).Cost;
+}
+```
+
+Tag work so cost lands on something you can act on:
+
+```csharp
+using (UsageScope.Begin(tenantId: "acme-corp", feature: "invoice-extraction"))
+{
+    await ai.GetResponseAsync(messages);
+}
+```
+
+Without a scope, usage is attributed to the **profile name**, so per-profile cost works with no
+caller effort at all.
+
+Prices ship for 57 Anthropic, OpenAI and Gemini models, each carrying a `LastVerified` date and
+a source URL. A model with no price records `null` — never `0` — and surfaces as
+`UsageSummary.UnpricedCount`, so a total is never quietly understated.
+
 ## Status
 
-**v0.1 â€” early.** The core works and is tested, but the API may change before 1.0.
+**v0.1 — early.** It works and is tested, but the API may change before 1.0.
 
 ```bash
-dotnet test    # 26 passing, no network calls
+dotnet test    # 107 passing, no network calls
 ```
+
+| Package | Purpose |
+|---|---|
+| `ModelMux` | profiles, routing, providers |
+| `ModelMux.Cost` | token, cost and latency tracking |
 
 ## Roadmap
 
-- [x] **v0.1** â€” profiles, config-driven switching, OpenAI/Gemini/Ollama, self-hosted endpoints
-- [ ] **v0.2** â€” fallback: if the primary provider fails, try the next
-- [ ] **v0.3** â€” cost and token tracking per profile
-- [ ] **v0.4** â€” response caching
+- [x] **v0.1** — profiles, config-driven switching, OpenAI/Gemini/Ollama, self-hosted endpoints
+- [x] **v0.1** — cost and token tracking per tenant, feature and profile
+- [ ] **v0.2** — fallback: if the primary provider fails, try the next
+- [ ] **v0.3** — persistent usage store, so data survives a restart
+- [ ] **v0.4** — response caching
+
+Deliberately out of scope: RAG, agents, vector stores, GPU orchestration. Reasoning in
+[`docs/architecture-decisions.md`](docs/architecture-decisions.md).
 
 ## License
 

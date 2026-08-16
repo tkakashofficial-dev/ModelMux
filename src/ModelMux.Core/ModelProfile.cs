@@ -1,11 +1,11 @@
-﻿namespace ModelMux;
+namespace ModelMux;
 
 /// <summary>
 /// A logical model, named by what it is <i>for</i> rather than by which vendor serves it.
 /// </summary>
 /// <remarks>
 /// <para>
-/// Application code asks for a profile â€” <c>"fast"</c>, <c>"smart"</c>, <c>"private"</c> â€”
+/// Application code asks for a profile — <c>"fast"</c>, <c>"smart"</c>, <c>"private"</c> —
 /// and never names a provider. Re-pointing <c>"fast"</c> from Gemini to a self-hosted model
 /// is a configuration change, not a code change. That indirection is the whole point of
 /// ModelMux.
@@ -24,8 +24,8 @@ public sealed class ModelProfile
 
     /// <summary>
     /// Overrides the provider's default endpoint. Set this to point a profile at a
-    /// self-hosted or proxied server that speaks the provider's protocol â€” a vLLM box,
-    /// LM Studio, or a rented GPU â€” without any code change.
+    /// self-hosted or proxied server that speaks the provider's protocol — a vLLM box,
+    /// LM Studio, or a rented GPU — without any code change.
     /// </summary>
     public string? Endpoint { get; set; }
 
@@ -37,7 +37,7 @@ public sealed class ModelProfile
 
     /// <summary>
     /// Literal API key. Convenient for a local spike, but it lands in <c>appsettings.json</c>
-    /// and therefore in git â€” use <see cref="ApiKeyEnvironmentVariable"/> or user-secrets for
+    /// and therefore in git — use <see cref="ApiKeyEnvironmentVariable"/> or user-secrets for
     /// anything real. When both are set, the environment variable wins.
     /// </summary>
     public string? ApiKey { get; set; }

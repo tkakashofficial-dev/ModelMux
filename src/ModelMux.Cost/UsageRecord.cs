@@ -1,4 +1,4 @@
-﻿namespace ModelMux.Cost;
+namespace ModelMux.Cost;
 
 /// <summary>
 /// A single recorded LLM call. One record is written per <c>IChatClient</c> invocation,
@@ -62,7 +62,7 @@ public sealed class UsageRecord
     /// <summary>Wall-clock duration of the call in milliseconds.</summary>
     public double DurationMs { get; init; }
 
-    /// <summary>False when the call threw. Failed calls are still recorded â€” they cost latency, and often tokens.</summary>
+    /// <summary>False when the call threw. Failed calls are still recorded — they cost latency, and often tokens.</summary>
     public bool Success { get; init; }
 
     /// <summary>Exception type name when <see cref="Success"/> is false.</summary>

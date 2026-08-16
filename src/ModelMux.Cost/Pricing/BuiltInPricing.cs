@@ -1,4 +1,4 @@
-﻿namespace ModelMux.Cost.Pricing;
+namespace ModelMux.Cost.Pricing;
 
 /// <summary>
 /// Pricing entries that ship with ModelMux.Cost.
@@ -12,7 +12,7 @@
 /// </para>
 /// <para>
 /// Models with no entry are recorded with a null cost and surface as
-/// <see cref="UsageSummary.UnpricedCount"/> â€” never as zero.
+/// <see cref="UsageSummary.UnpricedCount"/> — never as zero.
 /// </para>
 /// <para>
 /// <b>Prices go stale.</b> Re-check against <see cref="ModelPrice.Source"/> periodically, and

@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.AI;
+using Microsoft.Extensions.AI;
 
 namespace ModelMux;
 
@@ -8,7 +8,7 @@ namespace ModelMux;
 /// <remarks>
 /// Implement this to teach ModelMux about a provider it doesn't ship with, then register
 /// it via <c>AddProvider</c>. ModelMux deliberately does not define its own chat
-/// abstraction â€” <see cref="IChatClient"/> from <c>Microsoft.Extensions.AI</c> is the
+/// abstraction — <see cref="IChatClient"/> from <c>Microsoft.Extensions.AI</c> is the
 /// ecosystem standard, and everything downstream (middleware, tools, evaluation) already
 /// speaks it.
 /// </remarks>

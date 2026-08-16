@@ -1,11 +1,11 @@
-﻿namespace ModelMux.Cost.Estimation;
+namespace ModelMux.Cost.Estimation;
 
 /// <summary>
 /// Estimates token counts for providers that report none.
 /// </summary>
 /// <remarks>
 /// Estimates are approximations, not measurements. Every record produced from an estimate
-/// is flagged with <see cref="UsageRecord.IsEstimated"/> so reporting can separate the two â€”
+/// is flagged with <see cref="UsageRecord.IsEstimated"/> so reporting can separate the two —
 /// silently mixing estimated and reported figures into one cost total makes the total a lie.
 /// </remarks>
 public interface ITokenEstimator

@@ -1,4 +1,4 @@
-﻿using System.ClientModel;
+using System.ClientModel;
 using Microsoft.Extensions.AI;
 using OpenAI;
 
@@ -15,8 +15,8 @@ namespace ModelMux.Providers;
 /// GPU is then an <see cref="ModelProfile.Endpoint"/> change rather than new code.
 /// </para>
 /// <para>
-/// Providers that need a genuinely different wire format â€” Anthropic's native API, AWS
-/// Bedrock â€” get their own <see cref="IChatProvider"/> instead of being forced through here.
+/// Providers that need a genuinely different wire format — Anthropic's native API, AWS
+/// Bedrock — get their own <see cref="IChatProvider"/> instead of being forced through here.
 /// </para>
 /// </remarks>
 public sealed class OpenAICompatibleProvider : IChatProvider

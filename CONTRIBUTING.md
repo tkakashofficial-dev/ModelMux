@@ -1,6 +1,6 @@
-﻿# Contributing
+# Contributing
 
-Thanks for looking. ModelMux is early (0.x), so the API can still change â€” which makes this a
+Thanks for looking. ModelMux is early (0.x), so the API can still change — which makes this a
 good time to argue about the design.
 
 ## Getting started
@@ -32,13 +32,13 @@ dotnet test -c Release
 - **New provider?** Implement `IChatProvider`. If the service speaks the OpenAI protocol, you
   probably only need a new entry in `KnownProviders` rather than a new class.
 - **New pricing entry?** It must carry a `LastVerified` date and a `Source` URL pointing at the
-  provider's published pricing. Unverified prices are not accepted â€” a wrong price in a cost
+  provider's published pricing. Unverified prices are not accepted — a wrong price in a cost
   tool is worse than a missing one, because it is reported with the same confidence as a
   correct one.
 
 ## What is intentionally out of scope
 
-See [`docs/architecture-decisions.md`](docs/architecture-decisions.md) â€” RAG, agents, vector
+See [`docs/architecture-decisions.md`](docs/architecture-decisions.md) — RAG, agents, vector
 stores, and GPU orchestration are deliberately not part of this project. An issue proposing
 them will likely be closed with a pointer to that document, which is not a comment on the idea.
 

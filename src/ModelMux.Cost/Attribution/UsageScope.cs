@@ -1,4 +1,4 @@
-﻿namespace ModelMux.Cost.Attribution;
+namespace ModelMux.Cost.Attribution;
 
 /// <summary>
 /// Attribution values applied to usage records produced inside a scope.
@@ -20,8 +20,8 @@ public sealed class UsageAttribution
 /// </summary>
 /// <remarks>
 /// The default implementation reads an ambient <see cref="AsyncLocal{T}"/> scope. Replace it
-/// in DI when your app already resolves the current tenant some other way â€” for example a
-/// multi-tenant SaaS host that has an <c>ITenantContext</c> â€” so ModelMux.Cost attributes usage
+/// in DI when your app already resolves the current tenant some other way — for example a
+/// multi-tenant SaaS host that has an <c>ITenantContext</c> — so ModelMux.Cost attributes usage
 /// without callers having to open a scope by hand.
 /// </remarks>
 public interface IUsageAttributionAccessor

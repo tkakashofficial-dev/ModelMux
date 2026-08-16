@@ -1,7 +1,7 @@
-﻿namespace ModelMux;
+namespace ModelMux;
 
 /// <summary>
-/// Thrown when ModelMux is misconfigured â€” an unknown provider, a missing profile, or a
+/// Thrown when ModelMux is misconfigured — an unknown provider, a missing profile, or a
 /// credential that isn't where the configuration says it is.
 /// </summary>
 /// <remarks>

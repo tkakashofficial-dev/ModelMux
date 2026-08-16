@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.AI;
+using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -77,7 +77,7 @@ public static class CostTrackingChatClientBuilderExtensions
     /// pipeline.
     /// </summary>
     /// <remarks>
-    /// Place it as the outermost middleware you care about measuring â€” anything registered
+    /// Place it as the outermost middleware you care about measuring — anything registered
     /// after it in the builder chain runs inside it and is included in the recorded duration.
     /// </remarks>
     /// <example>

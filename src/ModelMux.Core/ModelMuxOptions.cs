@@ -1,4 +1,4 @@
-﻿namespace ModelMux;
+namespace ModelMux;
 
 /// <summary>Configuration for ModelMux, bound from the <c>ModelMux</c> section by default.</summary>
 /// <example>
@@ -22,7 +22,7 @@ public sealed class ModelMuxOptions
 
     /// <summary>
     /// Profile used when callers don't name one. Optional when exactly one profile is
-    /// configured â€” that profile becomes the default.
+    /// configured — that profile becomes the default.
     /// </summary>
     public string? DefaultProfile { get; set; }
 

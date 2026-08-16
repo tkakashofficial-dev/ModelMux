@@ -1,4 +1,4 @@
-﻿using ModelMux.Cost.Pricing;
+using ModelMux.Cost.Pricing;
 
 namespace ModelMux.Cost.Tests;
 
@@ -61,7 +61,7 @@ public class BuiltInPricingTests
     }
 
     // The prefix fallback is what lets date-suffixed ids resolve. Its risk is that a shorter
-    // name swallows a longer one â€” these pairs are the ones that would actually collide.
+    // name swallows a longer one — these pairs are the ones that would actually collide.
     [Theory]
     [InlineData("gpt-5-mini", 0.25)]
     [InlineData("gpt-5-nano", 0.05)]

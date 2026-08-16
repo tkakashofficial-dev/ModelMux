@@ -1,4 +1,4 @@
-﻿using System.Collections.Concurrent;
+using System.Collections.Concurrent;
 
 namespace ModelMux.Cost.Stores;
 
@@ -7,7 +7,7 @@ namespace ModelMux.Cost.Stores;
 /// </summary>
 /// <remarks>
 /// Intended for development, tests, and single-process demos. Records are lost on restart
-/// and are not shared across instances â€” use a persistent store for anything you plan to
+/// and are not shared across instances — use a persistent store for anything you plan to
 /// bill or report against.
 /// </remarks>
 public sealed class InMemoryUsageStore : IUsageStore, IUsageQuery

@@ -1,7 +1,7 @@
-﻿namespace ModelMux.Cost.Pricing;
+namespace ModelMux.Cost.Pricing;
 
 /// <summary>
-/// Price for one model, expressed per million tokens â€” the unit every major provider
+/// Price for one model, expressed per million tokens — the unit every major provider
 /// publishes, so entries can be copied from a pricing page without conversion.
 /// </summary>
 public sealed class ModelPrice
