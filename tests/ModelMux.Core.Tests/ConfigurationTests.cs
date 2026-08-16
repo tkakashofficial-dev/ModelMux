@@ -116,7 +116,7 @@ public class ConfigurationTests
     public void Disposing_the_router_disposes_the_clients_it_created()
     {
         var router = Router(WithProfiles(("fast", "Gemini", "a")));
-        var client = (FakeChatClient)router.GetClient();
+        var client = router.GetClient().AsFake();
 
         router.Dispose();
 
@@ -136,7 +136,7 @@ public class ConfigurationTests
 
         using var app = services.BuildServiceProvider();
 
-        Assert.IsType<FakeChatClient>(app.GetRequiredService<IChatClient>());
+        Assert.NotNull(app.GetRequiredService<IChatClient>().AsFake());
     }
 }
 

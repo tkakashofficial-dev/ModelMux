@@ -93,9 +93,9 @@ public class ProviderSwitchingTests
 
         var mux = app.GetRequiredService<IModelMux>();
 
-        Assert.Equal("Gemini", ((FakeChatClient)mux.GetClient("fast")).ProviderName);
-        Assert.Equal("OpenAI", ((FakeChatClient)mux.GetClient("smart")).ProviderName);
-        Assert.Equal("Ollama", ((FakeChatClient)mux.GetClient("private")).ProviderName);
+        Assert.Equal("Gemini", mux.GetClient("fast").AsFake().ProviderName);
+        Assert.Equal("OpenAI", mux.GetClient("smart").AsFake().ProviderName);
+        Assert.Equal("Ollama", mux.GetClient("private").AsFake().ProviderName);
     }
 
     [Fact]
@@ -111,7 +111,7 @@ public class ProviderSwitchingTests
             ["ModelMux:Profiles:smart:Model"] = "gpt-5",
         });
 
-        var client = (FakeChatClient)app.GetRequiredService<IChatClient>();
+        var client = app.GetRequiredService<IChatClient>().AsFake();
 
         Assert.Equal("OpenAI", client.ProviderName);
     }
@@ -142,7 +142,7 @@ public class ProviderSwitchingTests
             ["ModelMux:Profiles:gpu:Endpoint"] = "https://my-gpu-box:8000/v1/",
         });
 
-        var client = (FakeChatClient)app.GetRequiredService<IChatClient>();
+        var client = app.GetRequiredService<IChatClient>().AsFake();
 
         Assert.Equal("https://my-gpu-box:8000/v1/", client.Endpoint);
     }
