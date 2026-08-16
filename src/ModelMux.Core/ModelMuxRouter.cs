@@ -14,16 +14,22 @@ public sealed class ModelMuxRouter : IModelMux, IDisposable
 {
     private readonly ModelMuxOptions _options;
     private readonly IReadOnlyDictionary<string, IChatProvider> _providers;
+    private readonly IReadOnlyList<IChatClientDecorator> _decorators;
     private readonly ConcurrentDictionary<string, Lazy<IChatClient>> _clients =
         new(StringComparer.OrdinalIgnoreCase);
 
     private bool _disposed;
 
     /// <summary>Creates a router over the configured profiles and registered providers.</summary>
-    public ModelMuxRouter(IOptions<ModelMuxOptions> options, IEnumerable<IChatProvider> providers)
+    public ModelMuxRouter(
+        IOptions<ModelMuxOptions> options,
+        IEnumerable<IChatProvider> providers,
+        IEnumerable<IChatClientDecorator>? decorators = null)
     {
         ArgumentNullException.ThrowIfNull(options);
         ArgumentNullException.ThrowIfNull(providers);
+
+        _decorators = decorators is null ? [] : [.. decorators];
 
         _options = options.Value;
 
@@ -108,7 +114,19 @@ public sealed class ModelMuxRouter : IModelMux, IDisposable
                 + "Register a custom provider with AddModelMux(...).AddProvider(...).");
         }
 
-        return provider.CreateClient(profileName, profile);
+        var client = provider.CreateClient(profileName, profile);
+
+        // Registration order, each wrapping the previous, so the last registered ends up
+        // outermost and observes everything the earlier ones do.
+        foreach (var decorator in _decorators)
+        {
+            client = decorator.Decorate(profileName, profile, client)
+                ?? throw new ModelMuxConfigurationException(
+                    $"Decorator '{decorator.GetType().Name}' returned null for profile '{profileName}'. "
+                    + "A decorator must return a client — return the one it was given to opt out.");
+        }
+
+        return client;
     }
 
     private string KnownProviderNames() =>
