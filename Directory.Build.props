@@ -17,9 +17,9 @@
 
   <PropertyGroup Label="Package" Condition="'$(IsTestProject)' != 'true'">
     <Version>0.1.0-preview.1</Version>
-    <Authors>Akash</Authors>
-    <Company>Akash</Company>
-    <Copyright>Copyright (c) 2026 Akash</Copyright>
+    <Authors>Akash TK</Authors>
+    <Company>Akash TK</Company>
+    <Copyright>Copyright (c) 2026 Akash TK</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageProjectUrl>https://github.com/tkakashofficial-dev/ModelMux</PackageProjectUrl>
