@@ -1,12 +1,12 @@
-﻿namespace ModelMux.Providers;
+namespace ModelMux.Providers;
 
 /// <summary>
 /// The providers ModelMux registers out of the box.
 /// </summary>
 /// <remarks>
-/// All three speak the OpenAI chat-completions protocol, so they share one implementation and
-/// differ only in endpoint and whether a credential is required. Endpoints were taken from
-/// each vendor's own documentation on 2026-08-16.
+/// All of them speak the OpenAI chat-completions protocol, so they share one implementation and
+/// differ only in endpoint and whether a credential is required. Endpoints were taken from each
+/// vendor's own documentation on 2026-08-16.
 /// </remarks>
 public static class KnownProviders
 {
@@ -18,6 +18,9 @@ public static class KnownProviders
 
     /// <summary>Canonical provider name for a local Ollama server.</summary>
     public const string Ollama = "Ollama";
+
+    /// <summary>Canonical provider name for xAI Grok.</summary>
+    public const string Grok = "Grok";
 
     /// <summary>
     /// Gemini's OpenAI-compatible endpoint.
@@ -32,6 +35,12 @@ public static class KnownProviders
     /// </summary>
     public static Uri OllamaEndpoint { get; } = new("http://localhost:11434/v1/");
 
+    /// <summary>
+    /// xAI's OpenAI-compatible endpoint.
+    /// See https://docs.x.ai/docs/api-reference
+    /// </summary>
+    public static Uri GrokEndpoint { get; } = new("https://api.x.ai/v1");
+
     /// <summary>Creates the built-in provider set.</summary>
     public static IReadOnlyList<IChatProvider> CreateDefaults() =>
     [
@@ -40,6 +49,8 @@ public static class KnownProviders
         new OpenAICompatibleProvider(OpenAI),
 
         new OpenAICompatibleProvider(Gemini, GeminiEndpoint),
+
+        new OpenAICompatibleProvider(Grok, GrokEndpoint),
 
         // A local Ollama server ignores credentials, but the OpenAI client still insists
         // on a non-empty one.
