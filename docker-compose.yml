@@ -1,0 +1,39 @@
+# Runs the demo against a fully local model — no API key, no data leaving the machine.
+#
+#   docker compose up --build
+#   docker compose exec ollama ollama pull llama3     (first run only)
+#   curl -X POST localhost:8080/api/chat -H 'content-type: application/json' \
+#        -d '{"message":"hello","profile":"private"}'
+#
+# To use a cloud provider instead, export the key and switch profile:
+#   GEMINI_API_KEY=... docker compose up --build
+
+services:
+  demo:
+    build:
+      context: .
+      dockerfile: samples/ModelMux.WebDemo/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      # Reaches the sibling container rather than the demo's own localhost.
+      ModelMux__Profiles__private__Endpoint: "http://ollama:11434/v1/"
+      ModelMux__DefaultProfile: "private"
+
+      # Passed through from your shell if set; never baked into the image.
+      GEMINI_API_KEY: "${GEMINI_API_KEY:-}"
+      OPENAI_API_KEY: "${OPENAI_API_KEY:-}"
+      XAI_API_KEY: "${XAI_API_KEY:-}"
+    depends_on:
+      - ollama
+
+  ollama:
+    image: ollama/ollama:latest
+    ports:
+      - "11434:11434"
+    volumes:
+      # Models are large and are never committed to the repository.
+      - ollama-models:/root/.ollama
+
+volumes:
+  ollama-models:

@@ -1,0 +1,16 @@
+**/bin/
+**/obj/
+**/.vs/
+**/.vscode/
+**/.idea/
+**/TestResults/
+artifacts/
+.git/
+.github/
+tests/
+docs/
+*.md
+!README.md
+**/appsettings.*.local.json
+**/.env
+**/secrets.json
