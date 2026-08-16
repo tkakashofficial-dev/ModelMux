@@ -22,8 +22,8 @@
     <Copyright>Copyright (c) 2026 Akash</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageProjectUrl>https://github.com/akash/ModelMux</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/akash/ModelMux</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/tkakashofficial-dev/ModelMux</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/tkakashofficial-dev/ModelMux</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IncludeSymbols>true</IncludeSymbols>
