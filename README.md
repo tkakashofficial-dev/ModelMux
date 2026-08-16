@@ -389,6 +389,15 @@ becomes more than that.
 Deliberately out of scope: RAG, agents, vector stores, GPU orchestration. Reasoning in
 [`docs/architecture-decisions.md`](docs/architecture-decisions.md).
 
+## Documentation
+
+| Document | What's in it |
+|---|---|
+| [How it works](docs/how-it-works.md) | A guided walkthrough of every concept in the codebase — DI, decorators, `AsyncLocal`, tokens, streaming, and the safe NL→query design |
+| [Architecture decisions](docs/architecture-decisions.md) | Why the code is shaped this way, and what is deliberately not built |
+| [Contributing](CONTRIBUTING.md) | How to build, test, and propose changes |
+| [Security](SECURITY.md) | Credential handling and what ModelMux does not protect you from |
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md). No API keys needed — every unit test uses a fake
