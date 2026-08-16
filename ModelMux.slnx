@@ -1,6 +1,7 @@
 <Solution>
   <Folder Name="/samples/">
     <Project Path="samples/ModelMux.Sample/ModelMux.Sample.csproj" />
+    <Project Path="samples/ModelMux.WebDemo/ModelMux.WebDemo.csproj" />
   </Folder>
   <Folder Name="/src/">
     <Project Path="src/ModelMux.Core/ModelMux.Core.csproj" />
@@ -9,5 +10,6 @@
   <Folder Name="/tests/">
     <Project Path="tests/ModelMux.Core.Tests/ModelMux.Core.Tests.csproj" />
     <Project Path="tests/ModelMux.Cost.Tests/ModelMux.Cost.Tests.csproj" />
+    <Project Path="tests/ModelMux.WebDemo.Tests/ModelMux.WebDemo.Tests.csproj" />
   </Folder>
 </Solution>
