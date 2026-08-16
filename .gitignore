@@ -1,0 +1,24 @@
+bin/
+obj/
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+
+[Dd]ebug/
+[Rr]elease/
+artifacts/
+publish/
+TestResults/
+*.trx
+*.coverage
+*.nupkg
+*.snupkg
+
+# Never commit provider credentials. Use environment variables or user-secrets.
+appsettings.*.local.json
+appsettings.Development.json
+*.env
+.env
+secrets.json
