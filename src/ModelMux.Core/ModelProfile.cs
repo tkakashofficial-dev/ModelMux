@@ -1,0 +1,65 @@
+﻿namespace ModelMux;
+
+/// <summary>
+/// A logical model, named by what it is <i>for</i> rather than by which vendor serves it.
+/// </summary>
+/// <remarks>
+/// <para>
+/// Application code asks for a profile â€” <c>"fast"</c>, <c>"smart"</c>, <c>"private"</c> â€”
+/// and never names a provider. Re-pointing <c>"fast"</c> from Gemini to a self-hosted model
+/// is a configuration change, not a code change. That indirection is the whole point of
+/// ModelMux.
+/// </para>
+/// </remarks>
+public sealed class ModelProfile
+{
+    /// <summary>
+    /// Provider that serves this profile, matched case-insensitively against a registered
+    /// provider name (<c>OpenAI</c>, <c>Gemini</c>, <c>Ollama</c>, or one you register).
+    /// </summary>
+    public string Provider { get; set; } = string.Empty;
+
+    /// <summary>Provider-specific model id, e.g. <c>gemini-2.5-flash</c> or <c>gpt-5-mini</c>.</summary>
+    public string Model { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Overrides the provider's default endpoint. Set this to point a profile at a
+    /// self-hosted or proxied server that speaks the provider's protocol â€” a vLLM box,
+    /// LM Studio, or a rented GPU â€” without any code change.
+    /// </summary>
+    public string? Endpoint { get; set; }
+
+    /// <summary>
+    /// Name of the environment variable holding the API key. <b>Prefer this over
+    /// <see cref="ApiKey"/></b> so credentials never enter configuration files or source control.
+    /// </summary>
+    public string? ApiKeyEnvironmentVariable { get; set; }
+
+    /// <summary>
+    /// Literal API key. Convenient for a local spike, but it lands in <c>appsettings.json</c>
+    /// and therefore in git â€” use <see cref="ApiKeyEnvironmentVariable"/> or user-secrets for
+    /// anything real. When both are set, the environment variable wins.
+    /// </summary>
+    public string? ApiKey { get; set; }
+
+    /// <summary>Optional description, surfaced in diagnostics and error messages.</summary>
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Resolves the API key: environment variable first, literal second.
+    /// Returns null when neither is configured.
+    /// </summary>
+    public string? ResolveApiKey()
+    {
+        if (!string.IsNullOrWhiteSpace(ApiKeyEnvironmentVariable))
+        {
+            var fromEnvironment = Environment.GetEnvironmentVariable(ApiKeyEnvironmentVariable);
+            if (!string.IsNullOrWhiteSpace(fromEnvironment))
+            {
+                return fromEnvironment;
+            }
+        }
+
+        return string.IsNullOrWhiteSpace(ApiKey) ? null : ApiKey;
+    }
+}
