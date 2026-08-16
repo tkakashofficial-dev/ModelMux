@@ -1,0 +1,63 @@
+name: Publish to NuGet
+
+# Publishing is permanent — a version can be unlisted but never deleted or replaced.
+# So this only runs deliberately: when a GitHub release is published, or when triggered
+# by hand. It never runs on a plain push.
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      # Lets GitHub mint the short-lived OIDC token that nuget.org exchanges for a
+      # temporary API key. This is what makes Trusted Publishing keyless — there is no
+      # long-lived secret stored anywhere in this repository.
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Build
+        run: dotnet build -c Release
+
+      # Never publish something the tests haven't passed on. This is the last gate
+      # before an irreversible action.
+      - name: Test
+        run: dotnet test -c Release --no-build
+
+      - name: Pack
+        run: dotnet pack -c Release --no-build -o artifacts
+
+      # Request the temporary key as late as possible: it expires after one hour.
+      - name: NuGet login (OIDC exchange for a short-lived key)
+        uses: NuGet/login@v1
+        id: login
+        with:
+          # A nuget.org profile name is public information, not a credential.
+          user: akashtk18
+
+      - name: Push packages
+        run: >
+          dotnet nuget push artifacts/*.nupkg
+          --api-key ${{ steps.login.outputs.NUGET_API_KEY }}
+          --source https://api.nuget.org/v3/index.json
+          --skip-duplicate
+
+      - name: Summary
+        run: |
+          echo "### Published to NuGet" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          ls artifacts/*.nupkg | while read f; do
+            echo "- \`$(basename "$f")\`" >> $GITHUB_STEP_SUMMARY
+          done
