@@ -1,0 +1,42 @@
+<Project>
+
+  <!--
+    Shared settings for every project in the repository. Keeping version, license and
+    authorship here means a release is one edit, not one edit per package - which is the
+    usual way package metadata drifts apart.
+  -->
+
+  <PropertyGroup Label="Build">
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Package" Condition="'$(IsTestProject)' != 'true'">
+    <Version>0.1.0-preview.1</Version>
+    <Authors>Akash</Authors>
+    <Company>Akash</Company>
+    <Copyright>Copyright (c) 2026 Akash</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageProjectUrl>https://github.com/akash/ModelMux</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/akash/ModelMux</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+
+    <!-- Source Link: lets consumers step into this code in the debugger. -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+
+  <ItemGroup Label="Package" Condition="'$(IsTestProject)' != 'true'">
+    <None Include="$(MSBuildThisFileDirectory)README.md" Pack="true" PackagePath="\" Visible="false" />
+  </ItemGroup>
+
+</Project>

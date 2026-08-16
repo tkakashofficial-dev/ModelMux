@@ -4,8 +4,10 @@
   </Folder>
   <Folder Name="/src/">
     <Project Path="src/ModelMux.Core/ModelMux.Core.csproj" />
+    <Project Path="src/ModelMux.Cost/ModelMux.Cost.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/ModelMux.Core.Tests/ModelMux.Core.Tests.csproj" />
+    <Project Path="tests/ModelMux.Cost.Tests/ModelMux.Cost.Tests.csproj" />
   </Folder>
 </Solution>
