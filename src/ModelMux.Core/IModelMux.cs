@@ -32,4 +32,18 @@ public interface IModelMux
     /// <summary>Returns the configuration behind a profile, for diagnostics and health checks.</summary>
     /// <exception cref="ModelMuxConfigurationException">No such profile.</exception>
     ModelProfile GetProfile(string profileName);
+
+    /// <summary>
+    /// Returns what a profile's model can do — the profile's own override if set, otherwise the
+    /// provider's defaults.
+    /// </summary>
+    /// <exception cref="ModelMuxConfigurationException">No such profile.</exception>
+    ModelCapabilities GetCapabilities(string? profileName = null);
+
+    /// <summary>
+    /// Throws if the profile does not support the named capability. Call this before issuing a
+    /// request that depends on one, to fail fast instead of after a round-trip.
+    /// </summary>
+    /// <exception cref="UnsupportedCapabilityException">The capability is not available.</exception>
+    void RequireCapability(string capability, string? profileName = null);
 }

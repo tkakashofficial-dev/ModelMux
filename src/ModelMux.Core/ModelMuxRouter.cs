@@ -80,6 +80,30 @@ public sealed class ModelMuxRouter : IModelMux, IDisposable
     }
 
     /// <inheritdoc />
+    public ModelCapabilities GetCapabilities(string? profileName = null)
+    {
+        var name = string.IsNullOrWhiteSpace(profileName) ? DefaultProfileName : profileName;
+        var profile = GetProfile(name);
+
+        // Everything ModelMux ships speaks the OpenAI protocol, so its defaults are the
+        // sensible baseline until a profile says otherwise.
+        return profile.Capabilities ?? ModelCapabilities.OpenAiCompatibleDefaults();
+    }
+
+    /// <inheritdoc />
+    public void RequireCapability(string capability, string? profileName = null)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(capability);
+
+        var name = string.IsNullOrWhiteSpace(profileName) ? DefaultProfileName : profileName;
+
+        if (!GetCapabilities(name).Supports(capability))
+        {
+            throw new UnsupportedCapabilityException(name, GetProfile(name).Model, capability);
+        }
+    }
+
+    /// <inheritdoc />
     public IChatClient GetClient(string? profileName = null)
     {
         ObjectDisposedException.ThrowIf(_disposed, this);

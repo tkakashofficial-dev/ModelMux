@@ -46,6 +46,13 @@ public sealed class ModelProfile
     public string? Description { get; set; }
 
     /// <summary>
+    /// Overrides the provider's default capabilities for this model. Leave null to accept the
+    /// provider's defaults — ModelMux cannot know every model that will ever ship, so this is
+    /// the escape hatch for when its assumptions are wrong for yours.
+    /// </summary>
+    public ModelCapabilities? Capabilities { get; set; }
+
+    /// <summary>
     /// Resolves the API key: environment variable first, literal second.
     /// Returns null when neither is configured.
     /// </summary>

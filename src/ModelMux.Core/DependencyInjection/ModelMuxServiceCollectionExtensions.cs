@@ -52,6 +52,10 @@ public static class ModelMuxServiceCollectionExtensions
             services.AddSingleton(provider);
         }
 
+        // Registered first, so it ends up the innermost decorator and sees raw provider
+        // exceptions before anything else has a chance to wrap them.
+        services.AddSingleton<IChatClientDecorator, Errors.ErrorMappingDecorator>();
+
         services.TryAddSingleton<ModelMuxRouter>();
         services.TryAddSingleton<IModelMux>(sp => sp.GetRequiredService<ModelMuxRouter>());
 
