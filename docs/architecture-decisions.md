@@ -121,7 +121,56 @@ against a provider's published page ship, each with a `LastVerified` date and so
 
 ---
 
-## 9. Deliberately not built
+## 9. Errors are classified, never swallowed
+
+**Decision.** Provider exceptions are mapped to `ModelMuxProviderException` with a vendor-neutral
+`AiErrorCategory` and an `IsRetryable` flag. The original exception is always the inner exception.
+
+**Why.** Retry logic shouldn't need to know whether OpenAI or Gemini is behind a profile —
+`catch (ModelMuxProviderException ex) when (ex.IsRetryable)` should be enough. But hiding the
+provider's own error would make real debugging impossible, so classification is additive.
+
+**Consequence.** `Unknown` is never marked retryable. Guessing retryability on an unclassified
+failure would invite infinite retry loops against something permanently broken.
+
+**Caller cancellation is not mapped.** An `OperationCanceledException` raised because the
+caller's token fired stays exactly that, or every `catch (OperationCanceledException)` in the
+consuming application would silently stop working.
+
+---
+
+## 10. Capabilities are declared, not detected
+
+**Decision.** `ModelCapabilities` defaults per provider and is overridable per profile. There is
+no runtime probing.
+
+**Why.** A hardcoded model→capability table would be wrong within weeks of the next model
+launch, and probing costs a request and still can't be exhaustive. Declaring in configuration
+puts the knowledge where it can be corrected without a package update.
+
+**Consequence.** `Vision` defaults to false because it is far from universal; the rest default
+to true because they're near-universal over the OpenAI protocol. `RequireCapability` throws
+before any network call.
+
+---
+
+## 11. The model proposes, the application disposes
+
+**Decision.** In the reporting demo, the model emits a `ReportIntent` constrained to an
+allowlist of reports, fields, and operators. The application validates it, then executes it with
+LINQ predicates chosen by a `switch` over already-validated values.
+
+**Why.** A model that can emit SQL is a SQL-injection vector with a natural-language front end.
+Constraining generation to a fixed vocabulary means the worst a hallucinated or adversarially
+steered generation can produce is an intent the validator rejects — a 400, not an incident.
+
+**Consequence.** No expression is ever built from model output. `EmployeeRepository.Execute`
+re-validates and throws rather than trusting its caller, so forgetting to validate fails loudly
+instead of quietly executing.
+
+---
+
+## 12. Deliberately not built
 
 | Not built | Why |
 |---|---|
@@ -134,13 +183,18 @@ against a provider's published page ship, each with a `LastVerified` date and so
 
 ---
 
-## 10. Known limitations
+## 13. Known limitations
 
-- **No fallback yet.** A provider outage surfaces to the caller. Planned for v0.2.
+- **No fallback yet.** A provider outage surfaces to the caller, classified but not retried.
+  Planned for v0.2; the decorator hook it will use already exists.
 - **Flat pricing only.** Gemini Pro models charge more above a 200k-token prompt; ModelMux
   records the standard tier, so cost for very large prompts is a lower bound. Noted in each
   affected entry's `Source`.
-- **No live-API tests.** Every test uses a fake provider. The wiring is proven; the HTTP
-  round-trip against real vendors is not.
+- **Live-provider tests skip by default.** They exist and run when an API key is present, but
+  CI has none, so the HTTP round-trip against real vendors is not continuously verified.
 - **In-memory usage store only.** Data is lost on restart. A persistent store is planned.
+- **Capabilities are declared, not verified.** If configuration claims a model supports tool
+  calling and it doesn't, ModelMux will let the request through and the provider will reject it.
+- **Only OpenAI-protocol providers ship.** Anthropic's native API and AWS Bedrock need a custom
+  `IChatProvider`. The interface is public and documented for exactly that.
 - **API not stable.** 0.x — expect breaking changes before 1.0.

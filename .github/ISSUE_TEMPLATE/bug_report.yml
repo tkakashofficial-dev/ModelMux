@@ -1,0 +1,65 @@
+name: Bug report
+description: Something behaves differently than documented.
+labels: [bug]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please remove API keys from anything you paste. Configuration snippets are useful;
+        credentials are not.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What you expected, and what you got instead.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: How to reproduce
+      description: Smallest configuration and code that shows the problem.
+      render: csharp
+    validations:
+      required: true
+
+  - type: textarea
+    id: config
+    attributes:
+      label: Your ModelMux configuration
+      description: The relevant profiles, with secrets removed.
+      render: json
+
+  - type: input
+    id: version
+    attributes:
+      label: ModelMux version
+      placeholder: 0.1.0-preview.1
+    validations:
+      required: true
+
+  - type: input
+    id: dotnet
+    attributes:
+      label: .NET version
+      description: Output of `dotnet --version`.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: provider
+    attributes:
+      label: Provider
+      options: [OpenAI, Gemini, Grok, Ollama, Self-hosted / OpenAI-compatible, Custom, Not provider-specific]
+    validations:
+      required: true
+
+  - type: textarea
+    id: exception
+    attributes:
+      label: Exception, if any
+      description: Full text including the inner exception, which usually holds the real cause.
+      render: text

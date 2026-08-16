@@ -1,0 +1,42 @@
+name: Feature request
+description: Suggest something ModelMux should do.
+labels: [enhancement]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please skim [docs/architecture-decisions.md](../../docs/architecture-decisions.md)
+        first — RAG, agents, vector stores, and GPU orchestration are deliberately out of
+        scope, and that document explains why.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem are you hitting?
+      description: >
+        Describe the situation rather than the solution. Knowing the underlying problem
+        often surfaces a better fix than the one either of us thought of first.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What you'd like it to do
+      description: Sketch the API or configuration you'd want.
+      render: csharp
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: What you tried instead
+      description: Workarounds you've used, and why they fall short.
+
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope check
+      options:
+        - label: This isn't something Microsoft.Extensions.AI or Semantic Kernel already does well.
+          required: true
