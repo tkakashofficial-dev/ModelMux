@@ -185,6 +185,11 @@ Move from Gemini to OpenAI to a self-hosted GPU:
           "Endpoint": "http://gpu-box:8000/v1/" }                          // next year
 ```
 
+**What this does and doesn't mean.** Switching is a configuration change plus an application
+restart — not a runtime hot-swap. Profiles are resolved when the router is constructed, and
+clients are cached for its lifetime. The saving is that you skip the edit-build-review-deploy
+cycle, not that the process reconfigures itself while running.
+
 `ReportService` is untouched in all three cases. There is a test that enforces exactly this —
 [`ProviderSwitchingTests`](tests/ModelMux.Core.Tests/ProviderSwitchingTests.cs) runs identical
 application code against three providers.
