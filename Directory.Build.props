@@ -16,12 +16,13 @@
   </PropertyGroup>
 
   <PropertyGroup Label="Package" Condition="'$(IsTestProject)' != 'true'">
-    <Version>0.1.0-preview.1</Version>
+    <Version>0.1.0-preview.2</Version>
     <Authors>Akash TK</Authors>
     <Company>Akash TK</Company>
     <Copyright>Copyright (c) 2026 Akash TK</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>icon.png</PackageIcon>
     <PackageProjectUrl>https://github.com/tkakashofficial-dev/ModelMux</PackageProjectUrl>
     <RepositoryUrl>https://github.com/tkakashofficial-dev/ModelMux</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
@@ -37,6 +38,7 @@
 
   <ItemGroup Label="Package" Condition="'$(IsTestProject)' != 'true'">
     <None Include="$(MSBuildThisFileDirectory)README.md" Pack="true" PackagePath="\" Visible="false" />
+    <None Include="$(MSBuildThisFileDirectory)assets/icon.png" Pack="true" PackagePath="\" Visible="false" />
   </ItemGroup>
 
 </Project>

@@ -15,6 +15,24 @@ While on `0.x`, the public API may change between releases.
 - Persistent usage store, so data survives a restart
 - Response caching
 
+## [0.1.0-preview.2] — 2026-08-18
+
+### Added
+
+- Package icon, shown on nuget.org.
+- Logo in the README, switching automatically between GitHub's light and dark themes.
+- NuGet and license badges.
+
+### Changed
+
+- Installation instructions now include `--prerelease`, which is required until 1.0.
+
+### Notes
+
+No functional changes. Both packages are byte-identical in behaviour to
+`0.1.0-preview.1`; this release exists because a published NuGet version can never be
+replaced, so adding the icon required a new one.
+
 ## [0.1.0-preview.1] — 2026-08-16
 
 First public release. Two packages: `ModelMux` and `ModelMux.Cost`.
@@ -82,5 +100,6 @@ First public release. Two packages: `ModelMux` and `ModelMux.Cost`.
 - Only OpenAI-protocol providers ship. Anthropic's native API and AWS Bedrock need a custom
   `IChatProvider`.
 
-[Unreleased]: https://github.com/tkakashofficial-dev/ModelMux/compare/v0.1.0-preview.1...HEAD
+[Unreleased]: https://github.com/tkakashofficial-dev/ModelMux/compare/v0.1.0-preview.2...HEAD
+[0.1.0-preview.2]: https://github.com/tkakashofficial-dev/ModelMux/releases/tag/v0.1.0-preview.2
 [0.1.0-preview.1]: https://github.com/tkakashofficial-dev/ModelMux/releases/tag/v0.1.0-preview.1

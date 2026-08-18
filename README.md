@@ -1,8 +1,22 @@
-# ModelMux
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.png">
+    <source media="(prefers-color-scheme: light)" srcset="assets/logo-light.png">
+    <img alt="ModelMux — provider-agnostic AI infrastructure for .NET" src="assets/logo-light.png" width="520">
+  </picture>
+</p>
 
-**Switch AI providers from configuration, not code.**
+<p align="center">
+  <strong>Switch AI providers from configuration, not code.</strong>
+</p>
 
-[![CI](https://github.com/tkakashofficial-dev/ModelMux/actions/workflows/ci.yml/badge.svg)](https://github.com/tkakashofficial-dev/ModelMux/actions/workflows/ci.yml)
+<p align="center">
+  <a href="https://github.com/tkakashofficial-dev/ModelMux/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/tkakashofficial-dev/ModelMux/actions/workflows/ci.yml/badge.svg"></a>
+  <a href="https://www.nuget.org/packages/ModelMux"><img alt="NuGet" src="https://img.shields.io/nuget/vpre/ModelMux?logo=nuget&label=ModelMux"></a>
+  <a href="https://www.nuget.org/packages/ModelMux.Cost"><img alt="NuGet Cost" src="https://img.shields.io/nuget/vpre/ModelMux.Cost?logo=nuget&label=ModelMux.Cost"></a>
+  <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
+</p>
+
 
 ModelMux maps logical model profiles — `fast`, `smart`, `private` — onto OpenAI, Google Gemini,
 xAI Grok, Ollama, or any OpenAI-compatible endpoint. Your application depends on `IChatClient`
@@ -92,11 +106,11 @@ throughout.
 ## Installation
 
 ```bash
-dotnet add package ModelMux
-dotnet add package ModelMux.Cost   # optional: token and cost tracking
+dotnet add package ModelMux --prerelease
+dotnet add package ModelMux.Cost --prerelease   # optional: token and cost tracking
 ```
 
-> Not yet on NuGet — clone and reference the projects for now.
+Both packages are published as prereleases, so `--prerelease` is required until 1.0.
 
 ## Quick start
 
